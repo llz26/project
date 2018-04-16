@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.Hsk2Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.Hsk2">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="pinyin" property="pinyin" />
+        <result column="English" property="English" />
+        <result column="address" property="address" />
+        <result column="sentence" property="sentence" />
+        <result column="ps" property="ps" />
+        <result column="es" property="es" />
+        <result column="saddress" property="saddress" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, pinyin, English, address, sentence, ps, es, saddress
+    </sql>
+
+</mapper>

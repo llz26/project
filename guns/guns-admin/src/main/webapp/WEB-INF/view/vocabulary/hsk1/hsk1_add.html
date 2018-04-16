@@ -1,0 +1,36 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <input type="hidden" id="id" value="">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="" underline="true"/>
+                            <#input id="name" name="" underline="true"/>
+                            <#input id="pinyin" name="" underline="true"/>
+                            <#input id="English" name="" underline="true"/>
+                            <#input id="address" name=""/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="sentence" name="" underline="true"/>
+                            <#input id="ps" name="" underline="true"/>
+                            <#input id="es" name="" underline="true"/>
+                            <#input id="saddress" name="" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="Hsk1InfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="Hsk1InfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/vocabulary/hsk1/hsk1_info.js"></script>
+@}
