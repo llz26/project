@@ -1,8 +1,15 @@
 package com.stylefeng.guns.modular.system.controller;
 
 import com.google.code.kaptcha.Constants;
+import com.stylefeng.guns.GunsApplication;
 import com.stylefeng.guns.core.base.controller.BaseController;
+import com.stylefeng.guns.core.common.annotion.Permission;
+import com.stylefeng.guns.core.common.constant.Const;
+import com.stylefeng.guns.core.common.constant.dictmap.UserDict;
+import com.stylefeng.guns.core.common.constant.state.ManagerStatus;
+import com.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.core.common.exception.InvalidKaptchaException;
+import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.log.LogManager;
 import com.stylefeng.guns.core.log.factory.LogTaskFactory;
 import com.stylefeng.guns.core.node.MenuNode;
@@ -11,17 +18,25 @@ import com.stylefeng.guns.core.shiro.ShiroUser;
 import com.stylefeng.guns.core.util.ApiMenuFilter;
 import com.stylefeng.guns.core.util.KaptchaUtil;
 import com.stylefeng.guns.core.util.ToolUtil;
+import com.stylefeng.guns.modular.system.factory.UserFactory;
 import com.stylefeng.guns.modular.system.model.User;
 import com.stylefeng.guns.modular.system.service.IMenuService;
 import com.stylefeng.guns.modular.system.service.IUserService;
+import com.stylefeng.guns.modular.system.transfer.UserDto;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 import static com.stylefeng.guns.core.support.HttpKit.getIp;
@@ -40,6 +55,7 @@ public class LoginController extends BaseController {
 
     @Autowired
     private IUserService userService;
+    private final static Logger logger = LoggerFactory.getLogger(GunsApplication.class);
 
     /**
      * 跳转到主页
@@ -69,6 +85,17 @@ public class LoginController extends BaseController {
     }
 
     /**
+     * 跳转到注册页面
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register() {
+        return "/register.html";
+    }
+
+
+
+
+    /**
      * 跳转到登录页面
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -78,6 +105,35 @@ public class LoginController extends BaseController {
         } else {
             return "/login.html";
         }
+    }
+
+    /**
+     * 点击注册执行按钮
+     */
+
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    public String registerVali(@Valid UserDto user, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new GunsException(BizExceptionEnum.REQUEST_NULL);
+        }
+
+        // 判断账号是否重复
+        User theUser = userService.getByAccount(user.getAccount());
+        if (theUser != null) {
+            throw new GunsException(BizExceptionEnum.USER_ALREADY_REG);
+        }
+
+        // 完善账号信息
+
+        user.setSalt(ShiroKit.getRandomSalt(5));
+        user.setPassword(ShiroKit.md5(user.getPassword(), user.getSalt()));
+        user.setStatus(ManagerStatus.OK.getCode());
+        user.setCreatetime(new Date());
+        //logger.info(user.getAccount());
+        user.setRoleid("6");
+        user.setName("");
+        this.userService.insert(UserFactory.createUser(user));
+        return REDIRECT + "/login.html";
     }
 
     /**

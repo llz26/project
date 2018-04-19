@@ -3519,9 +3519,13 @@ video {
 }
 
 .wrapper-content {
-    padding: 20px;
+    padding: 10px;
 }
-
+@media (max-width: 768px){
+    .wrapper-content {
+        padding: 0px;
+    }
+}
 #page-wrapper {
     padding: 0 15px;
     position: inherit;

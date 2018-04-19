@@ -27,7 +27,66 @@
                                 <#button name="删除" icon="fa-remove" clickFun="Hsk1.delete()" space="true"/>
                             @}
                         </div>
-                        <#table id="Hsk1Table"/>
+                        <div class="fixed-table-container" style="height: 547px; padding-bottom: 40px;">
+                            <div class="fixed-table-header" style="margin-right: 6px;">
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="table-border">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="th-inner "></div>
+                                            <div class="fht-cell" style="width: 29px;"></div>
+                                        </th>
+                                        <th style="text-align: center; vertical-align: middle; " data-field="word">
+                                            <div class="th-inner ">Word</div>
+                                            <div class="fht-cell" style="width: 63px;"></div>
+                                        </th>
+                                        <th style="text-align: center; vertical-align: middle; " data-field="pronunciation">
+                                            <div class="th-inner ">Pronunciation</div>
+                                            <div class="fht-cell" style="width: 100px;"></div>
+                                        </th>
+                                        <th style="text-align: center; vertical-align: middle; " data-field="definition">
+                                            <div class="th-inner ">Definition</div>
+                                            <div class="fht-cell" style="width: 368px;"></div>
+                                        </th>
+                                        <th style="text-align: center; vertical-align: middle; " data-field="mp3">
+                                            <div class="th-inner ">MP3</div>
+                                            <div class="fht-cell" style="width: 99px;"></div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @for(hsk in hskList){
+                                    <tr>
+                                        <td class="bs-checkbox " style="width: 36px; " data-field="selectItem">
+                                            <input data-index="0" name="btSelectItem" type="radio">
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle; " data-field="word">
+                                            <${hsk.word}
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle; " data-field="pronunciation">
+                                            ${hsk.pronunciation}
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle; " data-field="definition">
+                                            ${hsk.definition}
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle; " data-field="mp3">
+
+                                                <button class="css_audio_btn">
+                                                    <span class="css_btn_lbl">►</span>
+                                                    <span class="css_data1">0</span>
+                                                    <span class="css_data2">
+                                                        <script type="text/javascript">pinyinflash('${hsk.mp3}');</script>
+                                                    </span>
+                                                </button>
+
+
+                                        </td>
+                                    </tr>
+                                    @}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
